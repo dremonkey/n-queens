@@ -92,7 +92,7 @@
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
       var that = this;
-      
+
       return _.some(_.range(that.get('n')), function (row) {
         return that.hasRowConflictAt(row);
       });
@@ -128,18 +128,21 @@
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(diagIndex) {
       var n = this.get('n') - 1;
-      var disp = 0;
       var rows;
+      var disp = 0;
+
       if (diagIndex < n) {
+        // get bottom rows
         rows = this.rows().slice(-diagIndex - 1);
       } else if (diagIndex > n) {
-        rows = this.rows().slice(0, n - diagIndex);
-	disp = diagIndex - n;
+        rows = this.rows().slice(0, 2 * n - diagIndex + 1);
+        disp = diagIndex - n;
       } else {
-        rows = this.rows();
+        rows = this.rows().slice();
       }
-      var diag = _.map(rows, function(row, ind) {
-        return row[ind + disp];
+
+      var diag = _.map(rows, function (row, col) {
+        return row[col + disp];
       });
 
       return countPieces(diag) > 1;
@@ -149,7 +152,7 @@
     hasAnyMajorDiagonalConflicts: function() {
       var that = this;
 
-      return _.some(_.range(that.get('n') * 2 - 1), function (diag) {
+      return _.some(_.range(this.get('n') * 2 - 1), function (diag) {
         return that.hasMajorDiagonalConflictAt(diag);
       });
     },
@@ -162,18 +165,18 @@
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(diagIndex) {
       var n = this.get('n') - 1;
+      var rows = this.rows().slice().reverse();
       var disp = 0;
-      var rows;
+
       if (diagIndex < n) {
-        rows = this.rows().slice().reverse().slice(-diagIndex - 1);
+        rows = rows.slice(-diagIndex - 1);
       } else if (diagIndex > n) {
-        rows = this.rows().slice().reverse().slice(0, n - diagIndex);
-	disp = diagIndex - n;
-      } else {
-        rows = this.rows().slice().reverse();
+        rows = rows.slice(0, 2 * n - diagIndex + 1);
+        disp = diagIndex - n;
       }
-      var diag = _.map(rows, function(row, ind) {
-        return row[ind + disp];
+
+      var diag = _.map(rows, function(row, col) {
+        return row[col + disp];
       });
 
       return countPieces(diag) > 1;
@@ -183,7 +186,7 @@
     hasAnyMinorDiagonalConflicts: function() {
       var that = this;
 
-      return _.some(_.range(that.get('n') * 2 - 1), function (diag) {
+      return _.some(_.range(this.get('n') * 2 - 1), function (diag) {
         return that.hasMinorDiagonalConflictAt(diag);
       });
     }
