@@ -158,16 +158,12 @@
     hasAnyMajorDiagonalConflicts: function() {
       var n = this.get('n');
       
-      // check all rows in first col (don't have to check the last row)
-      for (var row = 0; row < n-1; row++) {
-        var diagIndex = 0 - row;
-        if (this.hasMajorDiagonalConflictAt(diagIndex)) return true;
-      };
-
-      // check all cols in first row (don't have to check the last col)
-      for (var col = 0; col < n-1; col++) {
-        var diagIndex = col - 0;
-        if (this.hasMajorDiagonalConflictAt(diagIndex)) return true;
+      // check all positions
+      for (var row = 0; row < n; row++) {
+        for (var col = 0; col < n; col++) {
+          var diagIndex = col - row;
+          if (this.hasMajorDiagonalConflictAt(diagIndex)) return true;
+        }
       };
 
       return false;
@@ -209,16 +205,12 @@
     hasAnyMinorDiagonalConflicts: function() {
       var n = this.get('n');
       
-      // check all rows in first col (don't have to check the last row)
-      for (var row = 0; row < n-1; row++) {
-        var diagIndex = 0 + row;
-        if (this.hasMinorDiagonalConflictAt(diagIndex)) return true;
-      };
-
-      // check all cols in first row (don't have to check the last col)
-      for (var col = 0; col < n-1; col++) {
-        var diagIndex = col + 0;
-        if (this.hasMinorDiagonalConflictAt(diagIndex)) return true;
+      // check all positions
+      for (var row = 0; row < n; row++) {
+        for (var col = 0; col < n; col++) {
+          var diagIndex = col + row;
+          if (this.hasMinorDiagonalConflictAt(diagIndex)) return true;
+        }
       };
 
       return false;
