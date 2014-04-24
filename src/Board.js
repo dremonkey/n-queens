@@ -126,35 +126,15 @@
     // --------------------------------------------------------------
     //
     // test if a specific major diagonal on this board contains a conflict
-    hasMajorDiagonalConflictAt: function(diagIndex) {
-      var n = this.get('n') - 1;
-      var rows;
-      var disp = 0;
-
-      if (diagIndex < n) {
-        // get bottom rows
-        rows = this.rows().slice(-diagIndex - 1);
-      } else if (diagIndex > n) {
-        rows = this.rows().slice(0, 2 * n - diagIndex + 1);
-        disp = diagIndex - n;
-      } else {
-        rows = this.rows().slice();
-      }
-
-      var diag = _.map(rows, function (row, col) {
-        return row[col + disp];
-      });
-
-      return countPieces(diag) > 1;
+    // @param diagIndex - majorDiagonalColumnIndexAtFirstRow
+    hasMajorDiagonalConflictAt: function (diagIndex) {
+      var n = this.get('n');
+      console.log(diagIndex);
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      var that = this;
-
-      return _.some(_.range(this.get('n') * 2 - 1), function (diag) {
-        return that.hasMajorDiagonalConflictAt(diag);
-      });
+      
     },
 
 
@@ -163,32 +143,13 @@
     // --------------------------------------------------------------
     //
     // test if a specific minor diagonal on this board contains a conflict
-    hasMinorDiagonalConflictAt: function(diagIndex) {
-      var n = this.get('n') - 1;
-      var rows = this.rows().slice().reverse();
-      var disp = 0;
+    hasMinorDiagonalConflictAt: function (diagIndex) {
 
-      if (diagIndex < n) {
-        rows = rows.slice(-diagIndex - 1);
-      } else if (diagIndex > n) {
-        rows = rows.slice(0, 2 * n - diagIndex + 1);
-        disp = diagIndex - n;
-      }
-
-      var diag = _.map(rows, function(row, col) {
-        return row[col + disp];
-      });
-
-      return countPieces(diag) > 1;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      var that = this;
 
-      return _.some(_.range(this.get('n') * 2 - 1), function (diag) {
-        return that.hasMinorDiagonalConflictAt(diag);
-      });
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
